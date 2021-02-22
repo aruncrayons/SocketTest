@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Socket Test</title>
+  <style>
+    #defaultCanvas0{
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Socket Test</h1>
+  <button class="w3-btn w3-blue w3-small" name="btn_erase" id="btn_erase" onclick="doubleClicked()" >Erase</button>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+<script>
+  const socket = io.connect('http://127.0.0.1:5000', { perMessageDeflate : false });
+  socket.on('connect', function(){
+    socket.emit('join_room', {
+      "username": '{{ username }}',
+      "room": '{{ room }}'
+    })
+  });
+  // socket.join('{{ room }}')
+  socket.on('join_room_announcement', function(data){
+    console.log(data);
+    // alert(data);
+    alert(data.username + ' joined chat ' + data.room);
+  });
+  function setup(){
+    var canv = createCanvas(200, 200);
+    strokeWeight(2);
+    background(255);
+    canv.position(100, 100);
+  }
+  socket.on('draw_client', function(data){
+    console.log(data)
+    line(data.mouseX, data.mouseY, data.pmouseX, data.pmouseY);
+  });
+  function draw(){
+      if(mouseIsPressed){
+          stroke(80);
+          line(mouseX, mouseY, pmouseX, pmouseY);
+          console.log(mouseX, mouseY, pmouseX, pmouseY);
+          socket.emit('draw', {
+            'mouseX': mouseX,
+            'mouseY': mouseY,
+            'pmouseX': pmouseX,
+            'pmouseY': pmouseY,
+            'room': '{{ room }}'
+          });
+      }
+
+  }
+  function doubleClicked(){
+    background(255);
+  }
+</script>
+</html>
