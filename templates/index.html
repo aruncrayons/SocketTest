@@ -37,7 +37,7 @@
     background(255);
     canv.position(100, 100);
   }
-  socket.on('draw_client', function(data){
+  socket.on('mark_position', function(data){
     console.log(data)
     line(data.mouseX, data.mouseY, data.pmouseX, data.pmouseY);
   });
@@ -46,7 +46,7 @@
           stroke(80);
           line(mouseX, mouseY, pmouseX, pmouseY);
           console.log(mouseX, mouseY, pmouseX, pmouseY);
-          socket.emit('draw', {
+          socket.emit('positions', {
             'mouseX': mouseX,
             'mouseY': mouseY,
             'pmouseX': pmouseX,
