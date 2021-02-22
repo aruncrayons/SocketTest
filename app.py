@@ -12,7 +12,7 @@ pubsub.subscribe('locations')
 
 
 socketio = SocketIO(app,cors_allowed_origins="*")
-CORS(app)
+# CORS(app)
 
 @app.route('/<string:username>/<string:room>')
 def index(username, room):
@@ -33,6 +33,6 @@ def handle_draw_event(data):
     return ''
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host='127.0.0.1')
+    socketio.run(app, debug=True, host='0.0.0.0')
 
 # uwsgi --http-socket :5000 --plugin python3 --master --wsgi-file app.py --callable app
