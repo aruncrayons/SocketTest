@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO, join_room
 from flask_cors import CORS
 import redis
+from gevent import monkey
+monkey.patch_all()
 
 
 
