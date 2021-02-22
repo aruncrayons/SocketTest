@@ -1,16 +1,16 @@
 from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO, join_room
-import gpxpy
-import gpxpy.gpx
+# import gpxpy
+# import gpxpy.gpx
 from flask_cors import CORS
 # from flask_celery import Celery
 import redis
 
 # Parsing an existing file:
 # -------------------------
-gpx_file = open('my_gpx_file.gpx', 'r')
-
-gpx = gpxpy.parse(gpx_file)
+# gpx_file = open('my_gpx_file.gpx', 'r')
+#
+# gpx = gpxpy.parse(gpx_file)
 
 
 app = Flask(__name__)
