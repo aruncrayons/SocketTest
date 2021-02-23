@@ -1,4 +1,13 @@
-@app.route('/<string:username>/<string:room>')
+from flask import (
+    Blueprint, render_template, request,
+    redirect, url_for, flash,
+    send_from_directory
+)
+
+from Project import db
+main = Blueprint("main", __name__)
+
+@main.route('/<string:username>/<string:room>')
 def index(username, room):
     return render_template('index.html', username=username, room=room)
 
