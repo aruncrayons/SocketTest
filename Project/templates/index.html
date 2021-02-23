@@ -15,11 +15,15 @@
   <h1>Socket Test</h1>
   <button class="w3-btn w3-blue w3-small" name="btn_erase" id="btn_erase" onclick="doubleClicked()" >Erase</button>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="https://cdn.socket.io/3.1.1/socket.io.min.js" integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
 <script>
-  const socket = io.connect('http://3.130.116.224:5000/', { perMessageDeflate : false });
+
+  const socket = io.connect('http://127.0.0.1:3000', { perMessageDeflate : false });
   socket.on('connect', function(){
+    // extraHeaders: {
+    //   Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTQwODA2MTksIm5iZiI6MTYxNDA4MDYxOSwianRpIjoiNWFiNDYwYjctOTA4Ni00MGIyLThjY2UtNWZmN2QyODIyODkxIiwiZXhwIjoxNjI5NjMyNjE5LCJzdWIiOiIzNi1kcml2ZXIiLCJ0eXBlIjoicmVmcmVzaCJ9.4xxaXgsDokp-DY016r-nYJhzXpoCcFhzjUKl5N6cL-M"
+    // }
     socket.emit('join_room', {
       "username": '{{ username }}',
       "room": '{{ room }}'
@@ -46,7 +50,7 @@
           stroke(80);
           line(mouseX, mouseY, pmouseX, pmouseY);
           console.log(mouseX, mouseY, pmouseX, pmouseY);
-          socket.emit('positions', {
+          socket.emit('position', {
             'mouseX': mouseX,
             'mouseY': mouseY,
             'pmouseX': pmouseX,
