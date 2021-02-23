@@ -3,15 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_socketio import SocketIO, join_room
 from flask_cors import CORS
+from datetime import timedelta
 
 
 socketio = SocketIO()
-migrate = Migrate()
 db = SQLAlchemy()
 jwt = JWTManager()
+app = Flask(__name__)
 
 def create_app():
-    app = Flask(__name__)
     app.config['SECRET_KEY'] = '9OLWxhjlfkl89035jkllkND4o83'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://phpmyadmin:root@127.0.0.1/db_dropit?charset=utf8'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -28,4 +28,7 @@ def create_app():
     CORS(app)
     db.init_app(app)
     jwt.init_app(app)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
     return app

@@ -1,7 +1,6 @@
-from flask import (
-    Blueprint, render_template, request,
-    redirect, url_for, flash,
-    send_from_directory
-)
-from Project import db
-main = Blueprint("main", __name__)
+from Project import socketio, create_app
+
+app = create_app()
+
+if __name__ == "__main__":
+    socketio.run(app, debug=True, port=3000)

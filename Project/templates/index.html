@@ -18,8 +18,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
 <script>
-  const socket = io.connect('http://127.0.0.1:5000', { perMessageDeflate : false });
+  const socket = io.connect('http://127.0.0.1:3000', { perMessageDeflate : false });
   socket.on('connect', function(){
+    // extraHeaders: {
+    //   Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTQwODA2MTksIm5iZiI6MTYxNDA4MDYxOSwianRpIjoiNWFiNDYwYjctOTA4Ni00MGIyLThjY2UtNWZmN2QyODIyODkxIiwiZXhwIjoxNjI5NjMyNjE5LCJzdWIiOiIzNi1kcml2ZXIiLCJ0eXBlIjoicmVmcmVzaCJ9.4xxaXgsDokp-DY016r-nYJhzXpoCcFhzjUKl5N6cL-M"
+    // }
     socket.emit('join_room', {
       "username": '{{ username }}',
       "room": '{{ room }}'
@@ -37,7 +40,7 @@
     background(255);
     canv.position(100, 100);
   }
-  socket.on('draw_client', function(data){
+  socket.on('mark_position', function(data){
     console.log(data)
     line(data.mouseX, data.mouseY, data.pmouseX, data.pmouseY);
   });
@@ -46,7 +49,7 @@
           stroke(80);
           line(mouseX, mouseY, pmouseX, pmouseY);
           console.log(mouseX, mouseY, pmouseX, pmouseY);
-          socket.emit('draw', {
+          socket.emit('position', {
             'mouseX': mouseX,
             'mouseY': mouseY,
             'pmouseX': pmouseX,
