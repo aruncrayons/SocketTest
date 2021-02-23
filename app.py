@@ -1,20 +1,10 @@
-from flask import Flask, request, jsonify, render_template
-from flask_socketio import SocketIO, join_room
-from flask_cors import CORS
-import redis
-from gevent import monkey
-monkey.patch_all()
-
-
-
-app = Flask(__name__)
-r = redis.Redis(host='localhost', port=6379, db=0)
-pubsub = r.pubsub()
-pubsub.subscribe('locations')
-
-
-socketio = SocketIO(app,cors_allowed_origins="*")
-# CORS(app)
+from flask import (
+    Blueprint, render_template, request,
+    redirect, url_for, flash,
+    send_from_directory
+)
+from Project import db
+main = Blueprint("main", __name__)
 
 @app.route('/<string:username>/<string:room>')
 def index(username, room):
@@ -33,8 +23,3 @@ def handle_draw_event(data):
     socketio.emit('mark_position', data, room=data['room'])
     print(data)
     return ''
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0')
-
-# uwsgi --http-socket :5000 --plugin python3 --master --wsgi-file app.py --callable app
